@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: ['./src/pages/**/*.{js,ts,jsx,tsx,mdx}', './src/components/**/*.{js,ts,jsx,tsx,mdx}'],
+  plugins: [],
 };
 
 // /** @type {import('tailwindcss').Config} */

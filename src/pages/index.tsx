@@ -1,33 +1,21 @@
-import Layout from '@/Component/Layout';
-import Link from 'next/link';
+import Map from '@/Components/Map';
+import Markers from '@/Components/Markers';
+import StoreBox from '@/Components/StoreBox';
+import * as stores from '@/mapdata/store_data.json';
+import { useState } from 'react';
 
 export default function Home() {
+  const [map, setMap] = useState(null);
+  const [currentStore, setCurrentStore] = useState(null);
+  const storeDatas = stores['DATA'];
+
+  console.log(currentStore);
   return (
     <>
-      <h1>HONEMAP</h1>
-      <ul>
-        <li>
-          <Link href="/stores">맛집 목록</Link>
-        </li>
-        <li>
-          <Link href="/stores/new">맛집 생성</Link>
-        </li>
-        <li>
-          <Link href="/stores/1">맛집 상세페이지</Link>
-        </li>
-        <li>
-          <Link href="/stores/1/edit">맛집 수정페이지</Link>
-        </li>
-        <li>
-          <Link href="/users/login">로그인 페이지</Link>
-        </li>
-        <li>
-          <Link href="/users/mypage">마이페이지</Link>
-        </li>
-        <li>
-          <Link href="/users/likes">찜한 맛집</Link>
-        </li>
-      </ul>
+      <Map setMap={setMap} />
+      <Markers storeDatas={storeDatas} map={map} setCurrentStore={setCurrentStore} />
+
+      <StoreBox store={currentStore} setStore={setCurrentStore} />
     </>
   );
 }
