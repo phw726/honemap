@@ -7,9 +7,10 @@ import { useState } from 'react';
 
 export default function Home({ stores }: { stores: StoreType[] }) {
   const [map, setMap] = useState(null);
-  const [currentStore, setCurrentStore] = useState(null);
+  const [currentStore, setCurrentStore] = useState<any>(null);
   // const storeDatas = stores['DATA'];
 
+  // console.log(currentStore);
   // console.log(currentStore);
 
   return (
