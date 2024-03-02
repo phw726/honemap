@@ -2,6 +2,7 @@ import Map from '@/Components/Map';
 import Markers from '@/Components/Markers';
 import StoreBox from '@/Components/StoreBox';
 import { StoreType } from '@/interface';
+import axios from 'axios';
 import { useState } from 'react';
 
 export default function Home({ stores }: { stores: StoreType[] }) {
@@ -9,7 +10,7 @@ export default function Home({ stores }: { stores: StoreType[] }) {
   const [currentStore, setCurrentStore] = useState(null);
   // const storeDatas = stores['DATA'];
 
-  console.log(currentStore);
+  // console.log(currentStore);
 
   return (
     <>
@@ -21,10 +22,9 @@ export default function Home({ stores }: { stores: StoreType[] }) {
 }
 
 export async function getStaticProps() {
-  const stores = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`).then(res => res.json());
-
+  const stores = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
   return {
-    props: { stores },
-    revalidate: 60 * 60, // 60 minutes
+    props: { stores: stores.data },
+    revalidate: 60 * 60,
   };
 }

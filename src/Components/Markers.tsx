@@ -1,8 +1,9 @@
+import { StoreType } from '@/interface';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 
 interface MarkerProps {
   map: any;
-  stores: any[];
+  stores: StoreType[];
   setCurrentStore: Dispatch<SetStateAction<any>>;
 }
 
@@ -12,9 +13,7 @@ export default function Markers({ map, stores, setCurrentStore }: MarkerProps) {
       // 식당 데이터 마커 띄우기
 
       stores?.map(store => {
-        var imageSrc = store?.bizcnd_code_nm
-            ? `/images/markers/${store?.bizcnd_code_nm}.png`
-            : 'images/markers/default.png',
+        var imageSrc = store?.category ? `/images/markers/${store?.category}.png` : 'images/markers/default.png',
           imageSize = new window.kakao.maps.Size(40, 40),
           imageOption = { offset: new window.kakao.maps.Point(27, 69) };
 
@@ -22,7 +21,7 @@ export default function Markers({ map, stores, setCurrentStore }: MarkerProps) {
         var markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
         // 마커가 표시될 위치입니다
-        var markerPosition = new window.kakao.maps.LatLng(store?.y_dnts, store?.x_cnts);
+        var markerPosition = new window.kakao.maps.LatLng(store?.lat, store?.lng);
 
         // 마커를 생성합니다
         var marker = new window.kakao.maps.Marker({
@@ -35,7 +34,7 @@ export default function Markers({ map, stores, setCurrentStore }: MarkerProps) {
 
         // 마커 커서가 오버되었을 때 마커 위에 표시할 인포윈도우 생성
         // 인포윈도우 위에 생성될 내용
-        var content = `<div class="infowindow">${store?.upso_nm}</div>`;
+        var content = `<div class="infowindow">${store?.name}</div>`;
 
         // 커스텀 오버레이를 생성합니다
         var customOverlay = new window.kakao.maps.CustomOverlay({
