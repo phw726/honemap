@@ -6,10 +6,10 @@ import { useState } from 'react';
 
 export default function Home({ stores }: { stores: StoreType[] }) {
   const [map, setMap] = useState(null);
-  const [currentStore, setCurrentStore] = useState(null);
+  const [currentStore, setCurrentStore] = useState<any>(null);
   // const storeDatas = stores['DATA'];
 
-  console.log(currentStore);
+  // console.log(currentStore);
 
   return (
     <>
@@ -25,6 +25,29 @@ export async function getStaticProps() {
 
   return {
     props: { stores },
-    revalidate: 60 * 60, // 60 minutes
+    revalidate: 60 * 60,
   };
 }
+
+// export async function getStaticProps() {
+//   try {
+//     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
+
+//     if (!response.ok) {
+//       throw new Error(`API request failed with status: ${response.status}`);
+//     }
+
+//     const stores = await response.json();
+
+//     return {
+//       props: { stores },
+//       revalidate: 60 * 60, // 60 minutes
+//     };
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+
+//     return {
+//       props: { stores: [] }, // Provide a default value or handle as needed
+//     };
+//   }
+// }
