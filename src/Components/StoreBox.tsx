@@ -1,5 +1,4 @@
 import { StoreType } from '@/interface';
-import { StoreType } from '@/interface';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
 import { AiOutlineClose, AiOutlineInfoCircle, AiOutlineCheck, AiOutlinePhone } from 'react-icons/ai';
@@ -31,14 +30,11 @@ export default function StoreBox({ store, setStore }: StoreBoxProps) {
                 <div className="flex gap-4 items-start">
                   <Image
                     src={store?.category ? `/images/markers/${store?.category}.png` : 'images/markers/default.png'}
-                    src={store?.category ? `/images/markers/${store?.category}.png` : 'images/markers/default.png'}
                     width={40}
                     height={40}
                     alt="아이콘 이미지"
                   />
                   <div>
-                    <div className="font-semibold">{store?.name}</div>
-                    <div className="text-sm mb-3">{store?.storeType}</div>
                     <div className="font-semibold">{store?.name}</div>
                     <div className="text-sm mb-3">{store?.storeType}</div>
                   </div>
@@ -50,21 +46,17 @@ export default function StoreBox({ store, setStore }: StoreBoxProps) {
               <div className="mt-2 flex gap-2 items-center">
                 <HiOutlineMapPin />
                 {store?.address}
-                {store?.address}
               </div>
               <div className="mt-2 flex gap-2 items-center">
                 <AiOutlinePhone />
-                {store?.phone}
                 {store?.phone}
               </div>
               <div className="mt-2 flex gap-2 items-center">
                 <AiOutlineInfoCircle />
                 {store?.foodCertifyName}
-                {store?.foodCertifyName}
               </div>
               <div className="mt-2 flex gap-2 items-center">
                 <AiOutlineCheck />
-                {store?.category}
                 {store?.category}
               </div>
             </div>

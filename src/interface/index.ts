@@ -10,6 +10,13 @@ export interface StoreType {
   foodCertifyName?: string | null;
 }
 
+export interface StoreApiResponse {
+  data: StoreType[];
+  totalPage?: number;
+  totalCount?: number;
+  page?: number;
+}
+
 // tel_no: string;
 // cob_code_nm: string;
 // bizcnd_code_nm: string;
