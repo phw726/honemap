@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client/extension';
-import * as data from '../src/mapdata/store_data.json';
 
 const prisma = new PrismaClient();
 
