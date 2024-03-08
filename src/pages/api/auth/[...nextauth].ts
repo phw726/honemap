@@ -43,7 +43,12 @@ import KakaoProvider from 'next-auth/providers/kakao';
 
 const prisma = new PrismaClient();
 
-export const authOptions: AuthOptions = {
+export const authOptions = {
+  session: {
+    strategy: 'jwt' as const,
+    maxAge: 24 * 60 * 60, //3days
+    updateAge: 2 * 60 * 60, // 24hours
+  },
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({

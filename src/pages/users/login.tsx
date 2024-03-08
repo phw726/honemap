@@ -45,7 +45,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => signIn('kakao', { callbackUrl: '/' })}
-            className="text-black flex gap-4 bg-[#fef01b] hover:bg-[#fef01b]/80 font-bold 
+            className="text-[#3B1E1E] flex gap-4 bg-[#fef01b] hover:bg-[#fef01b]/80 font-bold 
             rounded-lg w-full px-5 py-4 text-center justify-center items-center"
           >
             <RiKakaoTalkFill className="w-6 h-6" />
