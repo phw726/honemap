@@ -9,17 +9,21 @@ import { useInfiniteQuery, useQuery } from 'react-query';
 import useIntersectionObverser from '@/hooks/useIntersecionObserver';
 import Loader from '@/Components/Loader';
 import SearchFilter from '@/Components/SearchFilter';
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
+import { searchState } from '@/atom';
 
 export default function StoreListPage() {
+  const router = useRouter();
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObverser(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
-  const [q, setQ] = useState<string | null>(null);
-  const [district, setDistrict] = useState<string | null>(null);
+
+  const searchValue = useRecoilValue(searchState);
 
   const searchParams = {
-    q: q,
-    district: district,
+    q: searchValue?.q,
+    district: searchValue?.district,
   };
 
   // const {
@@ -87,15 +91,19 @@ export default function StoreListPage() {
 
   return (
     <div className="px-4 md:max-w-4xl mx-auto py-8">
-      <SearchFilter setQ={setQ} setDistrict={setDistrict} />
+      <SearchFilter />
       <ul role="list" className="divide-y divide-gray-100">
         {isLoading ? (
           <Loading />
         ) : (
           stores?.pages?.map((page, index) => (
             <React.Fragment key={index}>
-              {page.data.map((store: StoreType, i) => (
-                <li className="flex justify-between gap-x-6 py-5" key={i}>
+              {page.data.map((store: StoreType, i: number) => (
+                <li
+                  className="flex justify-between gap-x-6 py-5 cursor-pointer hover:bg-gray-50"
+                  key={i}
+                  onClick={() => router.push(`/stores/${store.id}`)}
+                >
                   <div className="flex gap-x-4">
                     <Image
                       src={store?.category ? `/images/markers/${store?.category}.png` : `/images/markers/default.png`}

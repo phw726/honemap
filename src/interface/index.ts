@@ -17,6 +17,17 @@ export interface StoreApiResponse {
   page?: number;
 }
 
+export interface LocationType {
+  lat?: string | null;
+  lng?: string | null;
+  zoom?: number;
+}
+
+export interface SearchType {
+  q?: string;
+  district?: string;
+}
+
 // tel_no: string;
 // cob_code_nm: string;
 // bizcnd_code_nm: string;

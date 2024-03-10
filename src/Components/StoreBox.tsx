@@ -1,17 +1,13 @@
-import { StoreType } from '@/interface';
+import { currnetStoreState } from '@/atom';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction } from 'react';
 import { AiOutlineClose, AiOutlineInfoCircle, AiOutlineCheck, AiOutlinePhone } from 'react-icons/ai';
 import { HiOutlineMapPin } from 'react-icons/hi2';
+import { useRecoilState } from 'recoil';
 
-interface StoreBoxProps {
-  store: StoreType | null;
-  setStore: Dispatch<SetStateAction<any>>;
-}
-
-export default function StoreBox({ store, setStore }: StoreBoxProps) {
+export default function StoreBox() {
   const router = useRouter();
+  const [store, setStore] = useRecoilState(currnetStoreState);
   return (
     <>
       <div

@@ -53,7 +53,9 @@ export default function StorePage() {
           <dl className="divide-y divide-gray-100">
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">카테고리</dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{store?.category}</dd>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                {store?.category === 'default' ? '기타' : store?.category}
+              </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">주소</dt>
@@ -84,8 +86,8 @@ export default function StorePage() {
       </div>
       {isSuccess && (
         <div className="overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[600px]">
-          <Map setMap={setMap} lat={store?.lat} lng={store?.lng} zoom={1} />
-          <IdMarker map={map} store={store} />
+          <Map lat={store?.lat} lng={store?.lng} zoom={1} />
+          <IdMarker store={store} />
         </div>
       )}
     </>
