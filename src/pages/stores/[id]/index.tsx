@@ -1,4 +1,5 @@
 import IdMarker from '@/Components/IdMarker';
+import Like from '@/Components/Like';
 import Loader from '@/Components/Loader';
 import Map from '@/Components/Map';
 import { StoreType } from '@/interface';
@@ -24,7 +25,7 @@ export default function StorePage() {
     isFetching,
     isError,
     isSuccess,
-  } = useQuery(`store-${id}`, fetchStore, {
+  } = useQuery<StoreType>(`store-${id}`, fetchStore, {
     enabled: !!id,
     refetchOnWindowFocus: false,
   });
@@ -73,8 +74,9 @@ export default function StorePage() {
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{store?.address}</p>
           </div>
 
-          {status === 'authenticated' && (
+          {status === 'authenticated' && store && (
             <div className="flex items-center gap-4 px-4 py-3">
+              {<Like storeId={store.id} />}
               <Link className="underline hover:text-gray-400 text-sm" href={`/stores/${store?.id}/edit`}>
                 수정
               </Link>

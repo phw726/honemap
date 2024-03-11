@@ -1,7 +1,10 @@
-import { StoreApiResponse, StoreType } from '@/interface';
+import { LikeInterface, StoreApiResponse, StoreType } from '@/interface';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/db';
 import axios from 'axios';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './auth/[...nextauth]';
+import NextAuth from 'next-auth/next';
+import prisma from '@/db';
 
 interface ResponseType {
   page?: string;
@@ -16,6 +19,7 @@ export default async function handler(
   res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType | null>
 ) {
   const { page = '', limit = '', q, district, id }: ResponseType = req.query;
+  const session = await getServerSession(req, res, authOptions);
 
   if (req.method === 'POST') {
     // 데이터 생성을 처리
@@ -66,6 +70,7 @@ export default async function handler(
     if (page) {
       const count = await prisma.store.count();
       const skipPage = parseInt(page) - 1;
+
       const stores = await prisma.store.findMany({
         orderBy: { id: 'asc' },
         where: {
@@ -86,10 +91,16 @@ export default async function handler(
       });
     } else {
       const { id }: { id?: string } = req.query;
+
       const stores = await prisma.store.findMany({
         orderBy: { id: 'asc' },
         where: {
           id: id ? parseInt(id) : {},
+        },
+        include: {
+          likes: {
+            where: session ? { userId: session.user.id } : {},
+          },
         },
       });
 
