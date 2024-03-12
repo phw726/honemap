@@ -10,7 +10,7 @@ interface LikeProps {
 }
 
 export default function Like({ storeId }: LikeProps) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${storeId}`);
@@ -40,6 +40,8 @@ export default function Like({ storeId }: LikeProps) {
       } catch (e) {
         console.log(e);
       }
+    } else if (status === 'unauthenticated') {
+      toast.warn('로그인 후 이용해주세요');
     }
   };
 
@@ -47,7 +49,7 @@ export default function Like({ storeId }: LikeProps) {
     <button type="button" onClick={toggleLike}>
       {/* 로그인된 사용자가 좋아요를 눌렀을 경우 true면 fillheart */}
 
-      {store?.likes?.length ? (
+      {status === 'authenticated' && store?.likes?.length ? (
         <AiFillHeart className="hover:text-red-600 focus:text-red-600 text-red-500" />
       ) : (
         <AiOutlineHeart className="hover:text-red-600 focus:text-red-60" />
