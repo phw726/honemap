@@ -1,9 +1,10 @@
 import { currnetStoreState } from '@/atom';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
 import { AiOutlineClose, AiOutlineInfoCircle, AiOutlineCheck, AiOutlinePhone } from 'react-icons/ai';
 import { HiOutlineMapPin } from 'react-icons/hi2';
-import { useRecoilState } from 'recoil';
+
+import Image from 'next/image';
 import Like from './Like';
 
 export default function StoreBox() {
@@ -28,7 +29,7 @@ export default function StoreBox() {
               <div className="flex justify-between items-start ">
                 <div className="flex gap-4 items-start">
                   <Image
-                    src={store?.category ? `/images/markers/${store?.category}.png` : 'images/markers/default.png'}
+                    src={store?.category ? `/images/markers/${store?.category}.png` : '/images/markers/default.png'}
                     width={40}
                     height={40}
                     alt="아이콘 이미지"
@@ -51,20 +52,24 @@ export default function StoreBox() {
               </div>
               <div className="mt-2 flex gap-2 items-center">
                 <AiOutlinePhone />
-                {store?.phone}
+                {store?.phone || '등록된 전화번호가 없습니다.'}
               </div>
               <div className="mt-2 flex gap-2 items-center">
                 <AiOutlineInfoCircle />
                 {store?.foodCertifyName}
               </div>
               <div className="mt-2 flex gap-2 items-center">
-                <AiOutlineCheck />
-                {store?.category}
+                {store?.category && (
+                  <>
+                    <AiOutlineCheck />
+                    {store?.category === 'default' ? '기타' : store?.category}
+                  </>
+                )}
               </div>
             </div>
             <button
               type="button"
-              onClick={() => router.push(`/stores/${store.id}`)}
+              onClick={() => router.push(`/stores/${store?.id}`)}
               className="w-full bg-blue-700 
               hover:bg-blue-500 focus:bg-blue-500 
               py-3 text-white 
