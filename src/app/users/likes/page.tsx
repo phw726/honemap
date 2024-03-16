@@ -6,8 +6,8 @@ import Loading from '@/Components/Loading';
 import StoreMyList from '@/Components/StoreMyList';
 import Pagination from '@/Components/Pagination';
 
-export default function LikesPage({ params }: { params: { page: string } }) {
-  const page = params?.page || '1';
+export default function LikesPage({ searchParams }: { searchParams: { page: string } }) {
+  const page = searchParams?.page || '1';
 
   const fetchLikes = async () => {
     const { data } = await axios(`/api/likes?limit=10&page=${page}`);

@@ -135,7 +135,7 @@ export default function StorePage({ params, searchParams }: ParamsProps) {
             <Map lat={store?.lat} lng={store?.lng} zoom={1} />
             <IdMarker store={store} />
           </div>
-          <Comments storeId={store.id} />
+          <Comments storeId={store.id} page={searchParams.page} />
         </>
       )}
     </>
