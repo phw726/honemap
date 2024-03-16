@@ -5,10 +5,12 @@ import CommentList from '@/Components/comments/CommentList';
 import { CommentApiResponse } from '@/interface';
 import axios from 'axios';
 import { signOut, useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 import { useQuery } from 'react-query';
 
-export default function MyPage({ searchParams }: { searchParams: { page: string } }) {
-  const page = searchParams?.page || '1';
+export default function MyPage() {
+  const searchParams = useSearchParams();
+  const page = searchParams?.get('page') || '1';
 
   const { data: session } = useSession();
 

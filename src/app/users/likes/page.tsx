@@ -5,9 +5,11 @@ import { useQuery } from 'react-query';
 import Loading from '@/Components/Loading';
 import StoreMyList from '@/Components/StoreMyList';
 import Pagination from '@/Components/Pagination';
+import { useSearchParams } from 'next/navigation';
 
-export default function LikesPage({ searchParams }: { searchParams: { page: string } }) {
-  const page = searchParams?.page || '1';
+export default function LikesPage() {
+  const searchParams = useSearchParams();
+  const page = searchParams?.get('page') || '1';
 
   const fetchLikes = async () => {
     const { data } = await axios(`/api/likes?limit=10&page=${page}`);
