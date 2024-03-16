@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 interface CommentListProps {
   comments?: CommentApiResponse;
   displayStore?: boolean;
+  // createdAt?: Date;
 }
 
 export default function CommentList({ comments, displayStore }: CommentListProps) {
@@ -61,11 +62,12 @@ export default function CommentList({ comments, displayStore }: CommentListProps
                   )}
 
                   <div className="text-xs mt-1 ml-auto">
-                    {new Date(comment?.createdAt)?.toLocaleDateString('ko', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      second: '2-digit',
-                    })}
+                    {comment?.createdAt &&
+                      new Date(comment.createdAt).toLocaleDateString('ko', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                      })}
                   </div>
 
                   <div className="block">

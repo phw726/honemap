@@ -11,10 +11,10 @@ import Pagination from '../Pagination';
 
 interface CommentProps {
   storeId: number;
-  page: string;
+  page?: string;
 }
 
-export default function Comments({ storeId, page }: CommentProps) {
+export default function Comments({ storeId, page = '1' }: CommentProps) {
   const { status } = useSession();
 
   const fetchComments = async () => {
