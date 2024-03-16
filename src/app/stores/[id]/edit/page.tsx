@@ -1,13 +1,45 @@
+'use client';
+
 import AddressSearch from '@/Components/AddressSearch';
+import Loader from '@/Components/Loader';
 import { CATEGORY_ARR, FOOD_CERTIFY_ARR, STORE_TYPE_ARR } from '@/data/store';
 import { StoreType } from '@/interface';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 
-export default function StoreNewPage() {
+export default function StoreEditPage({ params }: { params: { id: string } }) {
   const router = useRouter();
+  const id = params?.id;
+
+  const fetchStore = async () => {
+    const { data } = await axios(`/api/stores?id=${id}`);
+    return data as StoreType;
+  };
+  const {
+    data: store,
+    isFetching,
+    isSuccess,
+    isError,
+  } = useQuery(`store-${id}`, fetchStore, {
+    onSuccess: data => {
+      setValue('id', data.id);
+      setValue('name', data.name);
+      setValue('phone', data.phone);
+      setValue('lat', data.lat);
+      setValue('lng', data.lng);
+      setValue('address', data.address);
+      setValue('foodCertifyName', data.foodCertifyName);
+      setValue('storeType', data.storeType);
+      setValue('category', data.category);
+    },
+    refetchOnWindowFocus: false,
+  });
+
+  // console.log(store);
+
   const {
     register,
     handleSubmit,
@@ -15,12 +47,27 @@ export default function StoreNewPage() {
     formState: { errors },
   } = useForm<StoreType>();
 
+  if (isError) {
+    return (
+      <div
+        className="
+      w-full h-screen mx-auto pt-[10%] text-red-500 text-center font-semibold"
+      >
+        다시 시도해주세요.
+      </div>
+    );
+  }
+
+  if (isFetching) {
+    return <Loader className="mt-[20%]" />;
+  }
+
   return (
     <form
       className="px-4 md:max-w-4xl mx-auto py-8"
       onSubmit={handleSubmit(async data => {
         try {
-          const result = await axios.post('/api/stores', data);
+          const result = await axios.put('/api/stores', data);
 
           if (result.status === 200) {
             //성공케이스
@@ -37,8 +84,8 @@ export default function StoreNewPage() {
       })}
     >
       <div className="border-b border-gray-900/10 pb-12">
-        <h2 className="text-base font-semibold leading-7 text-gray-900">맛집 등록</h2>
-        <p className="mt-1 text-sm leading-6 text-gray-600">아래 내용을 입력해서 맛집을 등록해주세요.</p>
+        <h2 className="text-base font-semibold leading-7 text-gray-900">맛집 정보 수정</h2>
+        <p className="mt-1 text-sm leading-6 text-gray-600">아래 내용을 입력해서 맛집을 수정해주세요.</p>
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
@@ -156,7 +203,7 @@ export default function StoreNewPage() {
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          제출하기
+          수정하기
         </button>
       </div>
     </form>

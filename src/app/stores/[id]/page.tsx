@@ -1,3 +1,4 @@
+'use client';
 import IdMarker from '@/Components/IdMarker';
 import Like from '@/Components/Like';
 import Loader from '@/Components/Loader';
@@ -7,13 +8,18 @@ import { StoreType } from '@/interface';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 
-export default function StorePage() {
+interface ParamsProps {
+  params: { id: string };
+  searchParams: { page: string };
+}
+
+export default function StorePage({ params, searchParams }: ParamsProps) {
   const router = useRouter();
-  const { id } = router.query;
+  const id = params.id;
   const { status } = useSession();
 
   const fetchStore = async () => {
@@ -89,7 +95,7 @@ export default function StorePage() {
         </div>
 
         <div className="mt-6 border-t border-gray-100">
-          <dl className="divide-y divide-gray-100">
+          <dl className="divide-y divide-gray-100 ">
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">카테고리</dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">

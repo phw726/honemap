@@ -1,6 +1,8 @@
+'use client';
+
 import { currnetStoreState, locationState, mapState } from '@/atom';
 import { StoreType } from '@/interface';
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 interface MarkerProps {

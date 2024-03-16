@@ -3,10 +3,9 @@ import Map from '@/Components/Map';
 import Markers from '@/Components/Markers';
 import StoreBox from '@/Components/StoreBox';
 import { StoreType } from '@/interface';
-import axios from 'axios';
-import { useState } from 'react';
 
-export default function Home({ stores }: { stores: StoreType[] }) {
+export default async function Home() {
+  const stores: StoreType[] = await getData();
   return (
     <>
       <Map />
@@ -17,9 +16,18 @@ export default function Home({ stores }: { stores: StoreType[] }) {
   );
 }
 
-export async function getServerSideProps() {
-  const stores = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
-  return {
-    props: { stores: stores.data },
-  };
+async function getData() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`, {
+      cache: 'no-store',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
+
+    return res.json();
+  } catch (e) {
+    console.log(e);
+  }
 }

@@ -1,22 +1,20 @@
+'use client';
 import { LikeApiResponse, LikeInterface } from '@/interface';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import Nextauth from '../api/auth/[...nextauth]';
 import Loading from '@/Components/Loading';
 import StoreMyList from '@/Components/StoreMyList';
-import { useRouter } from 'next/router';
 import Pagination from '@/Components/Pagination';
 
-export default function LikesPage() {
-  const router = useRouter();
-  const { page = '1' }: any = router.query;
+export default function LikesPage({ params }: { params: { page: string } }) {
+  const page = params?.page || '1';
 
   const fetchLikes = async () => {
     const { data } = await axios(`/api/likes?limit=10&page=${page}`);
     return data as LikeApiResponse;
   };
 
-  const { data: likes, isError, isLoading } = useQuery(`likes-${page}`, fetchLikes);
+  const { data: likes, isError, isLoading, isSuccess } = useQuery(`likes-${page}`, fetchLikes);
 
   if (isError) {
     return (
@@ -38,6 +36,9 @@ export default function LikesPage() {
           <Loading />
         ) : (
           likes?.data.map((like: LikeInterface, index) => <StoreMyList i={index} store={like.store} key={index} />)
+        )}
+        {isSuccess && !!!likes.data.length && (
+          <div className="p-4 border border-gray-200 rounded-md text-sm text-gray-400">찜한 가게가 없습니다.</div>
         )}
       </ul>
 
