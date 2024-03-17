@@ -1,3 +1,4 @@
+import { event } from '@/lib/gtag';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
@@ -33,6 +34,12 @@ export default function CommentForm({ storeId, refetch }: CommentFormProps) {
         } else {
           toast.error('다시 시도해주세요.');
         }
+        event({
+          action: 'comment',
+          category: 'comment',
+          label: result.status === 20 ? 'comment_create' : 'error',
+          value: storeId,
+        });
       })}
     >
       <textarea

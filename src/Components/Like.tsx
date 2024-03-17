@@ -1,4 +1,5 @@
 import { StoreType } from '@/interface';
+import { event } from '@/lib/gtag';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -36,12 +37,27 @@ export default function Like({ storeId }: LikeProps) {
         } else {
           toast.warn('찜한가게 목록에서 삭제했습니다.');
         }
+
+        event({
+          action: 'click_like',
+          category: 'like',
+          label: like.status === 201 ? 'create_like' : 'delete_like',
+          value: storeId,
+        });
+
         refetch();
       } catch (e) {
         console.log(e);
       }
     } else if (status === 'unauthenticated') {
       toast.warn('로그인 후 이용해주세요');
+
+      event({
+        action: 'click_like',
+        category: 'like',
+        label: 'need_login_like',
+        value: storeId,
+      });
     }
   };
 
