@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import { NextLayout, NextProvider } from './providers';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'HoneyMap',
@@ -11,9 +12,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <NextProvider>
-          <NextLayout>{children}</NextLayout>
-        </NextProvider>
+        <Suspense>
+          <NextProvider>
+            <NextLayout>{children}</NextLayout>
+          </NextProvider>
+        </Suspense>
       </body>
     </html>
   );

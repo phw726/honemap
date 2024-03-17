@@ -11,10 +11,10 @@ export default function LikesPage() {
   const searchParams = useSearchParams();
   const page = searchParams?.get('page') || '1';
 
-  const fetchLikes = async () => {
+  async function fetchLikes() {
     const { data } = await axios(`/api/likes?limit=10&page=${page}`);
     return data as LikeApiResponse;
-  };
+  }
 
   const { data: likes, isError, isLoading, isSuccess } = useQuery(`likes-${page}`, fetchLikes);
 
